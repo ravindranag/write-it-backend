@@ -64,3 +64,49 @@ export const authenticateUser = async (req, res, next) => {
 		})
 	}
 }
+
+export const verifyUser = async (req, res, next) => {
+	// const [bearer, token] = req.headers['authorization'].split(' ')
+	const auth = req.headers['authorization']
+	if(!auth) {
+		res.status(401).json({
+			error: 'Authentication failed',
+			message: 'Invalid token'
+		})
+		return
+	}
+
+	const token = auth.split(' ')
+
+	if(token[0] !== process.env.BEARER) {
+		res.status(401).json({
+			error: 'Authentication failed',
+			message: 'Invalid token'
+		})
+		return 
+	}
+
+	try {
+		const { payload, protectedHeader } = await jose.jwtVerify(token[1], secret)
+
+		console.log(payload)
+
+		const requestingUser = await prisma.user.findFirstOrThrow({
+			where: {
+				username: payload.username
+			}
+		})
+
+		req.user = requestingUser
+		next()
+
+	}
+
+	catch(err) {
+		res.status(401).json({
+			error: 'Authentication failed',
+			message: err.message
+		})
+	}
+
+}

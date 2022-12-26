@@ -32,7 +32,7 @@ model Token {
 model Blog {
 	id Int @unique @default(autoincrement())
 	title String
-	slug String
+	slug String @unique
 	description String?
 	content String
 	authorId Int
