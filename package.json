@@ -1,0 +1,27 @@
+{
+  "name": "write-it-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "author": "Ravindra Nag",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon src",
+    "start": "node src",
+    "db:studio": "prisma studio",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy"
+  },
+  "dependencies": {
+    "@prisma/client": "4.8.0",
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "prisma": "^4.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
