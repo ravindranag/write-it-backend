@@ -39,5 +39,22 @@ export const blogCreate = async (req, res, next) => {
 
 export const blogGetBySlug = async (req, res, next) => {
 	const { slug } = req.params
-	res.json({ slug })
+
+	try {
+		const blog = await prisma.blog.findFirstOrThrow({
+			where: {
+				slug: slug
+			}
+		})
+
+		res.json({
+			message: 'Blog fetched',
+			blog: blog
+		})
+	}
+
+	catch(err) {
+		next(err)
+	}
+
 }
