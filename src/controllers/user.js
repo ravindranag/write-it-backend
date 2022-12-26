@@ -3,6 +3,10 @@ import prisma from "../lib/prisma/client.js"
 export const userSignUp = async (req, res, next) => {
 	const { email, password, username } = req.body
 
+	if(!email || !username || !password) {
+		next(new Error('Required fields are empty'))
+	}
+
 	try {
 		const newUser = await prisma.user.create({
 			data: {
