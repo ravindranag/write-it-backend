@@ -18,9 +18,16 @@ model User {
   password String
 
 	blogs Blog[]
-
-
+	token Token?
 }
+
+model Token {
+	id Int @unique @default(autoincrement())
+	token String
+	userId Int @unique
+	user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 
 model Blog {
 	id Int @unique @default(autoincrement())
