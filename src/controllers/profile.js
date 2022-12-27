@@ -1,4 +1,5 @@
 import prisma from "../lib/prisma/client.js"
+import supabase from "../lib/supabase/client.js"
 
 export const profileCreate = async (req, res, next) => {
 	const { name, username, avatar, bio } = req.body
@@ -28,4 +29,40 @@ export const profileCreate = async (req, res, next) => {
 		next(err)
 	}
 
+}
+
+export const avatarUpdate = async (req, res, next) => {
+	const { file, profile } = req
+	// console.log(file)
+	try {
+		const { data, error } = await supabase
+			.storage
+			.from('writeit')
+			.upload(file.key, file, {
+				upsert: true
+			})
+
+		if(error) {
+			// console.log(error)
+			throw new Error(error)
+		}
+		else {
+			const updatedProfile = await prisma.profile.update({
+				data: {
+					avatar: data.path
+				},
+				where: {
+					id: profile.id
+				}
+			})
+
+			res.json({
+				message: 'file uploaded successfully',
+				updatedProfile
+			})
+		}
+	}
+	catch(err) {
+		next(err)
+	}
 }
