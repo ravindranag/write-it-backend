@@ -13,28 +13,38 @@ datasource db {
 
 model User {
   id       Int    @unique @default(autoincrement())
-  username String @unique
   email    String @unique
   password String
 
+  token   Token?
+  profile Profile?
+}
+
+model Profile {
+  id       Int     @unique @default(autoincrement())
+  name     String
+  username String  @unique
+  bio      String
+  avatar   String?
+  userId   Int     @unique
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 	blogs Blog[]
-	token Token?
+  
 }
 
 model Token {
-	id Int @unique @default(autoincrement())
-	token String
-	userId Int @unique
-	user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     Int    @unique @default(autoincrement())
+  token  String
+  userId Int    @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-
 model Blog {
-	id Int @unique @default(autoincrement())
-	title String
-	slug String @unique
-	description String?
-	content String
-	authorId Int
-	author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  id          Int     @unique @default(autoincrement())
+  title       String
+  slug        String  @unique
+  description String?
+  content     String
+  authorId    Int
+  author      Profile @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }

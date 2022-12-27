@@ -5,7 +5,7 @@ import { authenticateUser } from "../lib/jose/index.js";
 
 const router = Router()
 
-router.post('/signup', hashPassword, userSignUp)
+router.post('/signup', hashPassword, userSignUp, authenticateUser, userLogIn)
 router.post('/login', authenticateUser, userLogIn)
 
 export {router as userRouter}

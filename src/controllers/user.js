@@ -1,9 +1,9 @@
 import prisma from "../lib/prisma/client.js"
 
 export const userSignUp = async (req, res, next) => {
-	const { email, password, username } = req.body
+	const { email, hashedPassword } = req.body
 
-	if(!email || !username || !password) {
+	if(!email || !hashedPassword) {
 		next(new Error('Required fields are empty'))
 	}
 
@@ -11,19 +11,16 @@ export const userSignUp = async (req, res, next) => {
 		const newUser = await prisma.user.create({
 			data: {
 				email: email,
-				password: password,
-				username: username
-			},
-			select: {
-				id: true,
-				username: true
+				password: hashedPassword
 			}
 		})
 
-		res.json({
-			message: 'Sign up successful',
-			user: newUser
-		})
+		next()
+
+		// res.json({
+		// 	message: 'Sign up successful',
+		// 	user: newUser
+		// })
 
 	}
 

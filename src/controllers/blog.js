@@ -1,10 +1,10 @@
 import prisma from "../lib/prisma/client.js"
 
 export const blogCreate = async (req, res, next) => {
-	const { user } = req
+	const { profile } = req
 	const { title, slug, content, description } = req.body
 
-	if(!user) next(new Error('Authentication failed'))
+	if(!profile) next(new Error('Authentication failed'))
 
 	if(!title || !slug || !content) {
 		next(new Error('required fields are empty'))
@@ -19,7 +19,7 @@ export const blogCreate = async (req, res, next) => {
 				description: description,
 				author: {
 					connect: {
-						id: user.id
+						id: profile.id
 					}
 				}
 			}
@@ -44,6 +44,16 @@ export const blogGetBySlug = async (req, res, next) => {
 		const blog = await prisma.blog.findFirstOrThrow({
 			where: {
 				slug: slug
+			},
+			include: {
+				author: {
+					select: {
+						name: true,
+						username: true,
+						avatar: true,
+						bio: true
+					}
+				}
 			}
 		})
 

@@ -7,7 +7,7 @@ export const hashPassword = async (req, res, next) => {
 
 	try {
 		const hashedPassword = await bcrypt.hash(password, saltRounds)
-		req.body.password = hashedPassword
+		req.body.hashedPassword = hashedPassword
 
 		next()
 	}
