@@ -63,11 +63,7 @@ export const avatarUpdate = async (req, res, next) => {
 
 			res.json({
 				message: 'file uploaded successfully',
-				updatedProfile,
-				file: {
-					buffer: file.buffer,
-					stream: file.stream
-				}
+				updatedProfile
 			})
 		}
 	}
