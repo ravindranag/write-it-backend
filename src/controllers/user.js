@@ -33,6 +33,8 @@ export const userSignUp = async (req, res, next) => {
 export const userLogIn = async (req, res, next) => {
 	const { token } = req
 
+	console.log(token)
+
 	if(token) {
 		res.json({
 			message: 'User logged in',

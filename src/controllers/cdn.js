@@ -1,26 +1,14 @@
-import axios from "axios"
-import supabase from "../lib/supabase/client.js"
+import { getAvatarDownloadUrl } from "../lib/firebase/firebase.js"
 
 export const getSignedUrl = async (req, res, next) => {
 	const { folder, file } = req.params
 
 	try {
-		const { data, error } = await supabase
-			.storage
-			.from('writeit')
-			.createSignedUrl(`${folder}/${file}`, 3600, {
-				// download: true
-
-			})
-
-		if(error) {
-			throw error
-		}
-		else {
-			res.set({
-				'Content-Type': 'image/png'
-			})
-			res.redirect(data.signedUrl)
+		const url = await getAvatarDownloadUrl(`${folder}/${file}`)
+		if(url) {
+			res.redirect(url)
+		} else {
+			throw new Error('failed loading image')
 		}
 	}
 
