@@ -3,16 +3,18 @@
 
 generator client {
   provider = "prisma-client-js"
+	engineType = "dataproxy"
 }
 
 datasource db {
-  provider          = "postgresql"
+  provider          = "cockroachdb"
+	
   url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
-  id       Int    @unique @default(autoincrement())
+  id       BigInt    @unique @default(autoincrement())
   email    String @unique
   password String
 
@@ -21,30 +23,30 @@ model User {
 }
 
 model Profile {
-  id       Int     @unique @default(autoincrement())
+  id       BigInt     @unique @default(autoincrement())
   name     String
   username String  @unique
   bio      String
   avatar   String?
-  userId   Int     @unique
+  userId   BigInt     @unique
   user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 	blogs Blog[]
   
 }
 
 model Token {
-  id     Int    @unique @default(autoincrement())
+  id     BigInt    @unique @default(autoincrement())
   token  String
-  userId Int    @unique
+  userId BigInt    @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Blog {
-  id          Int     @unique @default(autoincrement())
+  id          BigInt     @unique @default(autoincrement())
   title       String
   slug        String  @unique
   description String?
   content     String
-  authorId    Int
+  authorId    BigInt
   author      Profile @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }

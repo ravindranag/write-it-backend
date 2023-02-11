@@ -1,0 +1,69 @@
+-- CreateTable
+CREATE TABLE "User" (
+    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "email" STRING NOT NULL,
+    "password" STRING NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "Profile" (
+    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "name" STRING NOT NULL,
+    "username" STRING NOT NULL,
+    "bio" STRING NOT NULL,
+    "avatar" STRING,
+    "userId" INT8 NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "Token" (
+    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "token" STRING NOT NULL,
+    "userId" INT8 NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "Blog" (
+    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "title" STRING NOT NULL,
+    "slug" STRING NOT NULL,
+    "description" STRING,
+    "content" STRING NOT NULL,
+    "authorId" INT8 NOT NULL
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_id_key" ON "User"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Profile_id_key" ON "Profile"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Profile_username_key" ON "Profile"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Token_id_key" ON "Token"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Token_userId_key" ON "Token"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Blog_id_key" ON "Blog"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Blog_slug_key" ON "Blog"("slug");
+
+-- AddForeignKey
+ALTER TABLE "Profile" ADD CONSTRAINT "Profile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Token" ADD CONSTRAINT "Token_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Blog" ADD CONSTRAINT "Blog_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "Profile"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -13,7 +13,7 @@ app.use(router)
 
 app.use((err, req, res, next) => {
 	if(err) {
-		// console.log(err)
+		console.log(err)
 
 		if(err.code === ERROR_PRISMA_UNIQUE_CONSTRAINT) {
 			err.message = `${err.meta.target[0]} should be unique`
@@ -26,10 +26,17 @@ app.use((err, req, res, next) => {
 	}
 })
 
-app.listen(port, (err) => {
-	if(err) {
-		console.error('Server failed to start', err)
-	} else {
-		console.log('Server listening on port', port)
-	}
-})
+async function main() {
+	app.listen(port, (err) => {
+		if(err) {
+			console.error('Server failed to start', err)
+		} else {
+			console.log('Server listening on port', port)
+		}
+	})
+}
+
+main()
+	.catch(err => {
+		console.error('Runtime Error', err)
+	}) 
