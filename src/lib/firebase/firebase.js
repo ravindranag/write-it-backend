@@ -47,9 +47,6 @@ const getAvatarDownloadUrl = async (key) => {
 }
 
 export {
-	app,
-	userFolderRef,
-	pfpRef,
 	uploadAvatarImage,
 	getAvatarDownloadUrl
 }
