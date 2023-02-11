@@ -2,19 +2,19 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
-	engineType = "dataproxy"
+  provider   = "prisma-client-js"
+  engineType = "dataproxy"
 }
 
 datasource db {
-  provider          = "cockroachdb"
-	
-  url               = env("DATABASE_URL")
+  provider = "cockroachdb"
+
+  url = env("DATABASE_URL")
   // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
-  id       BigInt    @unique @default(autoincrement())
+  id       String @unique @default(cuid())
   email    String @unique
   password String
 
@@ -23,30 +23,29 @@ model User {
 }
 
 model Profile {
-  id       BigInt     @unique @default(autoincrement())
+  id       String  @unique @default(cuid())
   name     String
   username String  @unique
   bio      String
   avatar   String?
-  userId   BigInt     @unique
+  userId   String  @unique
   user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-	blogs Blog[]
-  
+  blogs    Blog[]
 }
 
 model Token {
-  id     BigInt    @unique @default(autoincrement())
+  id     String @unique @default(cuid())
   token  String
-  userId BigInt    @unique
+  userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Blog {
-  id          BigInt     @unique @default(autoincrement())
+  id          String  @unique @default(cuid())
   title       String
   slug        String  @unique
   description String?
   content     String
-  authorId    BigInt
+  authorId    String
   author      Profile @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }

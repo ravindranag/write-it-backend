@@ -1,35 +1,35 @@
 -- CreateTable
 CREATE TABLE "User" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "email" STRING NOT NULL,
     "password" STRING NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "Profile" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "name" STRING NOT NULL,
     "username" STRING NOT NULL,
     "bio" STRING NOT NULL,
     "avatar" STRING,
-    "userId" INT8 NOT NULL
+    "userId" STRING NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "Token" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "token" STRING NOT NULL,
-    "userId" INT8 NOT NULL
+    "userId" STRING NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "Blog" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "title" STRING NOT NULL,
     "slug" STRING NOT NULL,
     "description" STRING,
     "content" STRING NOT NULL,
-    "authorId" INT8 NOT NULL
+    "authorId" STRING NOT NULL
 );
 
 -- CreateIndex
