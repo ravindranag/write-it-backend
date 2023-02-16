@@ -15,27 +15,35 @@ const app = initializeApp(firebaseConfig);
 
 const storage = getStorage(app)
 const userFolderRef = ref(storage, 'users')
+const coverImgFolderRef = ref(storage, 'coverImg')
 
+/**
+ * 
+ * @param {Buffer} file - File to be uploaded
+ * @param {string} filename - Name of the file with extension
+ * @returns {({ uploaded: Boolean; key: string })}
+ */
 const uploadAvatarImage = async (file, filename) => {
 	try {
 		const fileRef = ref(userFolderRef, filename)
 		const snapshot = await uploadBytes(fileRef, file)
 		console.log(snapshot)
 		return {
-			uploaded: 1,
+			uploaded: true,
 			key: fileRef.fullPath
 		}
 	}
 	catch(err) {
 		console.error(err)
 		return {
-			uploaded: 0
+			uploaded: false,
+			key: ''
 		}
 	}
 }
 
 const getAvatarDownloadUrl = async (key) => {
-	const fileRef = ref(storage, key)
+	const fileRef = ref(storage, key) // users/rv.jpg
 	try {
 		const url = await getDownloadURL(fileRef)
 		return url

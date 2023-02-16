@@ -39,6 +39,7 @@ export const authenticateUser = async (req, res, next) => {
 				id: requestedUser.id,
 				email: requestedUser.email
 			})
+			console.log(jwt)
 
 			const token = await prisma.token.upsert({
 				create: {
@@ -101,8 +102,16 @@ export const verifyUser = async (req, res, next) => {
 			where: {
 				id: payload.id
 			},
-			include: {
-				profile: true
+			select: {
+				email: true,
+				profile: {
+					select: {
+						name: true,
+						username: true,
+						bio: true,
+						avatar: true
+					}
+				}
 			}
 		})
 

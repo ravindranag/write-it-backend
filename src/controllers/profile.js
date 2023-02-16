@@ -40,20 +40,23 @@ export const avatarUpdate = async (req, res, next) => {
 
 	try {
 		const image = await uploadAvatarImage(fb, file.filename)
+		if(image.uploaded) {
+			const updatedProfile = await prisma.profile.update({
+				where: {
+					id: profile.id
+				},
+				data: {
+					avatar: image.key
+				}
+			})
+			res.json({
+				message: 'Profile updated',
+				updatedProfile
+			})
+		} else {
+			throw Error('Image upload failed')
+		}
 
-		const updatedProfile = await prisma.profile.update({
-			where: {
-				id: profile.id
-			},
-			data: {
-				avatar: image.key
-			}
-		})
-
-		res.json({
-			message: 'Profile updated',
-			updatedProfile
-		})
 	}
 	catch(err) {
 		next(err)
