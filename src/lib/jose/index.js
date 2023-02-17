@@ -27,7 +27,7 @@ export const authenticateUser = async (req, res, next) => {
 		if(!password) throw Error('Password required')
 		const requestedUser = await prisma.user.findUniqueOrThrow({
 			where: {
-				email: email
+				email: email.toLowerCase()
 			}
 		})
 

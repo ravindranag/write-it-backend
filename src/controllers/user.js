@@ -10,7 +10,7 @@ export const userSignUp = async (req, res, next) => {
 	try {
 		const newUser = await prisma.user.create({
 			data: {
-				email: email,
+				email: email.toLowerCase(),
 				password: hashedPassword
 			}
 		})
