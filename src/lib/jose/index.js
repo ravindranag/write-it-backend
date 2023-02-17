@@ -105,9 +105,11 @@ export const verifyUser = async (req, res, next) => {
 				id: payload.id
 			},
 			select: {
+				id: true,
 				email: true,
 				profile: {
 					select: {
+						id: true,
 						name: true,
 						username: true,
 						bio: true,
