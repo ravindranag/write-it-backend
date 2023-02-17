@@ -20,26 +20,28 @@ const generateToken = async (payload) => {
 export const authenticateUser = async (req, res, next) => {
 	const { email, password } = req.body
 
-	console.log(email, password)
+	// console.log(email, password)
 
 	try {
-		const requestedUser = await prisma.user.findFirstOrThrow({
+		if(!email) throw Error('Email required')
+		if(!password) throw Error('Password required')
+		const requestedUser = await prisma.user.findUniqueOrThrow({
 			where: {
 				email: email
 			}
 		})
 
-		console.log(requestedUser)
+		// console.log(requestedUser)
 
 		const passwordMatch = await bcrypt.compare(password, requestedUser.password)
-		console.log(passwordMatch)
+		// console.log(passwordMatch)
 
 		if(passwordMatch) {
 			const jwt = await generateToken({
 				id: requestedUser.id,
 				email: requestedUser.email
 			})
-			console.log(jwt)
+			// console.log(jwt)
 
 			const token = await prisma.token.upsert({
 				create: {
