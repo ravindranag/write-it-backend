@@ -15,14 +15,18 @@
     "db:migrate:deploy": "prisma migrate deploy"
   },
   "dependencies": {
+    "@google-cloud/local-auth": "2.1.0",
     "@prisma/client": "^4.10.1",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "firebase": "^9.17.1",
+    "googleapis": "105",
     "jose": "^4.11.1",
+    "mimetext": "^2.1.1",
     "multer": "^1.4.5-lts.1",
+    "otplib": "^12.0.1",
     "prisma": "^4.10.1"
   },
   "devDependencies": {
