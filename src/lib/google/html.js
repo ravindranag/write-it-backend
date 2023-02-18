@@ -6,7 +6,7 @@ export const getOtpHtmlTemplate = (otp) =>  `
 </head>
 <body style="margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'sans-serif'; background: white;">
   <div class="container" style="margin: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'sans-serif'; padding: 32px;">
-    <img class="logo" src="https://i.imgur.com/XbTrc99.png" style="margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'sans-serif'; width: 120px; height: 120px;" width="120" height="120">
+    <img class="logo" src="https://i.imgur.com/XbTrc99.png" style="margin: 48px 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'sans-serif'; width: 120px; height: 120px;" width="120" height="120">
     <h1 style="margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'sans-serif'; font-weight: 800;">Verify your Email</h1>
     <hr style="padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'sans-serif'; margin: 32px 0;">
     <p style="margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'sans-serif';">Hi, here is your OTP: <strong style="margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'sans-serif';">${otp}</strong></p>
