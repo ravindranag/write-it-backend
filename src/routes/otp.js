@@ -3,7 +3,7 @@ import { generateOTPController, verifyOTPController } from "../controllers/otp.j
 
 const otpRouter = Router()
 
-otpRouter.get('/generate', generateOTPController)
+otpRouter.post('/generate', generateOTPController)
 
 otpRouter.post('/verify', verifyOTPController)
 
