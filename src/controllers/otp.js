@@ -17,8 +17,14 @@ export const verifyOTPController = async (req, res, next) => {
 	const { otp, email } = req.body
 
 	const verified = verifyOTP(otp, email)
+	if(verified) {
+		res.status(200).json({
+			message: 'Email verified'
+		})
+	} else {
+		res.status(400).json({
+			message: 'Verification failed. Retry'
+		})
+	}
 
-	res.json({
-		verified
-	})
 }
