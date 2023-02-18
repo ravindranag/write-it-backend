@@ -27,7 +27,7 @@ const uploadAvatarImage = async (file, filename) => {
 	try {
 		const fileRef = ref(userFolderRef, filename)
 		const snapshot = await uploadBytes(fileRef, file)
-		console.log(snapshot)
+		// console.log(snapshot)
 		return {
 			uploaded: true,
 			key: fileRef.fullPath
