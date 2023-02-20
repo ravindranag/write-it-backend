@@ -24,7 +24,7 @@ model Profile {
   id       String  @unique @default(cuid())
   name     String
   username String  @unique
-  bio      String
+  bio      String?
   avatar   String?
   userId   String  @unique
   user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
