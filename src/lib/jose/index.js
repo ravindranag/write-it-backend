@@ -133,3 +133,40 @@ export const verifyUser = async (req, res, next) => {
 	}
 
 }
+
+export const verifyAndLogOut = async (req, res, next) => {
+	const auth = req.headers['authorization']
+	if(!auth) {
+		res.status(401).json({
+			error: 'Authentication failed',
+			message: 'Invalid token'
+		})
+		return
+	}
+
+	const token = auth.split(' ')
+
+	if(token[0] !== process.env.BEARER) {
+		res.status(401).json({
+			error: 'Authentication failed',
+			message: 'Invalid token'
+		})
+		return 
+	}
+
+	try {
+		const { payload, protectedHeader } = await jose.jwtVerify(token[1], secret)
+		await prisma.token.delete({
+			where: {
+				userId: payload.id
+			}
+		})
+
+		next()
+	} catch(err) {
+		res.status(400).json({
+			error: 'Bad request',
+			message: 'Invalid request'
+		})
+	}
+}

@@ -51,3 +51,9 @@ export const userInfo = async (req, res, next) => {
 		currentUser: user
 	})
 }
+
+export const userLogOut = async (req, res, next) => {
+	res.json({
+		message: 'User logged out'
+	})
+}
