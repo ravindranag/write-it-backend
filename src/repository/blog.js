@@ -32,13 +32,53 @@ export const getBlogBySlug = async (slug) => {
 			where: {
 				slug: slug
 			},
-			include: {
-				author: true
+			select: {
+				title: true,
+				slug: true,
+				description: true,
+				data: true,
+				createdAt: true,
+				updatedAt: true,
+				author: {
+					select: {
+						name: true,
+						username: true,
+						avatar: true,
+						bio: true,
+						twitter_username: true
+					}
+				},
+				likedBy: {
+					select: {
+						userProfile: {
+							select: {
+								username: true,
+								avatar: true,
+							}
+						},
+					},
+				}
 			}
 		})
 		return blog
 	}
 	catch(err) {
+		console.log(err)
 		return null
+	}
+}
+
+export const userLikesBlog = async (profileId, slug) => {
+	try {
+		await prisma.blogLikes.create({
+			data: {
+				blogSlug: slug,
+				profileId: profileId
+			}
+		})
+		return true
+	}
+	catch(err) {
+		return false
 	}
 }

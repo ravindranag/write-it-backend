@@ -42,14 +42,14 @@ model Blog {
   author      Profile     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  likes       BlogLikes[]
+  likedBy     BlogLikes[]
 }
 
 model BlogLikes {
-  blogId String
-  userId String
-  blog   Blog    @relation(fields: [blogId], references: [id], onDelete: Cascade)
-  user   Profile @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blogSlug    String
+  profileId   String
+  blog        Blog    @relation(fields: [blogSlug], references: [slug], onDelete: Cascade)
+  userProfile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
-  @@id([blogId, userId])
+  @@id([blogSlug, profileId])
 }
