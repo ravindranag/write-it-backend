@@ -104,9 +104,9 @@ export const getMemberProfileController = async (req, res, next) => {
 export const uploadProfilePicController = async (req, res, next) => {
 	try {
 		const { file } = req
-		const { profile: { username }, userId } = req.locals
+		const { profileId } = req.locals
 		const fb = readFileSync(file.path)
-		const image = await uploadProfilePic(username, file.filename, fb)
+		const image = await uploadProfilePic(file.filename, fb)
 		unlink(file.path, (err) => {
 			if(err) {
 				console.error('failed to delete')
@@ -114,7 +114,7 @@ export const uploadProfilePicController = async (req, res, next) => {
 			console.log('file deleted')
 		})
 		if(image.uploaded) {
-			const updatedProfile = await updateProfileById(userId, {
+			const updatedProfile = await updateProfileById(profileId, {
 				avatar: image.key
 			})
 			if(!updatedProfile) throw Error('Cannot update profile')

@@ -4,11 +4,28 @@ import { responseHelper } from './helpers/response-helpers.js'
 import { errorHelper } from './helpers/error-helper.js'
 import appRoutes from './routes/index.js'
 import morgan from 'morgan'
+import cors from 'cors'
 
 const port = process.env.PORT || 8000
 
+const whitelist = [
+	'http://localhost:3000',
+	'https://writeit.ravindranag.in'
+]
+
 const app = express()
+
 app.use(morgan('dev'))
+app.use(cors({
+	origin: function(origin, callback) {
+		// console.log('origin', origin)
+		if (whitelist.indexOf(origin) !== -1 || origin === undefined) {
+			callback(null, true)
+		} else {
+			callback(new Error('Not allowed by CORS'))
+		}
+	}
+}))
 app.use(json())
 app.use(urlencoded({
 	extended: true

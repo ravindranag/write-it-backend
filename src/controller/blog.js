@@ -1,4 +1,4 @@
-import { createBlog, getBlogBySlug, slugExists, userLikesBlog } from "../repository/blog.js"
+import { createBlog, getBlogBySlug, getLatestBlogs, slugExists, userLikesBlog } from "../repository/blog.js"
 
 export const createBlogController = async (req, res, next) => {
 	try {
@@ -40,6 +40,19 @@ export const userLikesBlogController = async (req, res, next) => {
 			return res.sendStatus(409)
 		}
 		return res.sendStatus(200)
+	}
+	catch(err) {
+		return res.sendStatus(500)
+	}
+}
+
+export const getLatestBlogsController = async (req, res, next) => {
+	try {
+		const latestBlogs = await getLatestBlogs()
+		if(!latestBlogs) {
+			return res.sendStatus(500)
+		}
+		return res.ok(latestBlogs)
 	}
 	catch(err) {
 		return res.sendStatus(500)

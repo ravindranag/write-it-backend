@@ -123,11 +123,11 @@ export const getListOfMembers = async () => {
 	}
 }
 
-export const updateProfileById = async (userId, data) => {
+export const updateProfileById = async (profileId, data) => {
 	try {
 		let updatedProfile = await prisma.profile.update({
 			where: {
-				userId: userId
+				id: profileId
 			},
 			data: data,
 			select: {

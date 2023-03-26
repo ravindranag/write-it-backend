@@ -3,7 +3,7 @@ import { storage } from "./init.js"
 
 const profileFolderRef = ref(storage, 'avatar')
 
-export const uploadProfilePic = async (username, filename, file) => {
+export const uploadProfilePic = async (filename, file) => {
 	try{
 		const fileRef = ref(profileFolderRef, filename)
 		await uploadBytes(fileRef, file)

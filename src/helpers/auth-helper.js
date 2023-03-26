@@ -37,7 +37,6 @@ export const authorizeAdmin = async (req, res, next) => {
 
 export const authorizeAndGetProfile = async (req, res, next) => {
 	try {
-		let { userId } = req.params
 		let token = req.headers.authorization
 		let payload = await verifyJWT(token)
 		// console.log(payload)
