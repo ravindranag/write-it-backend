@@ -58,3 +58,16 @@ export const getLatestBlogsController = async (req, res, next) => {
 		return res.sendStatus(500)
 	}
 }
+
+export const slugAvailabilityController = async (req, res, next) => {
+	try {
+		const { slug } = req.params
+		if(await slugExists(slug)) {
+			return res.sendStatus(400)
+		}
+		return res.sendStatus(200)
+	}
+	catch(err) {
+		next(err)
+	}
+}
