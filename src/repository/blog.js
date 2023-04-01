@@ -88,6 +88,29 @@ export const getLatestBlogs = async () => {
 		const latestBlogs = await prisma.blog.findMany({
 			orderBy: {
 				updatedAt: 'desc'
+			},
+			select: {
+				title: true,
+				slug: true,
+				description: true,
+				data: true,
+				createdAt: true,
+				updatedAt: true,
+				author: {
+					select: {
+						name: true,
+						username: true,
+						avatar: true,
+						bio: true,
+						twitter_username: true,
+					}
+				},
+				_count: {
+					select: {
+						likedBy: true
+					}
+				}
+
 			}
 		})
 		return latestBlogs
