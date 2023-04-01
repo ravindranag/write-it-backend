@@ -33,16 +33,19 @@ model Profile {
 }
 
 model Blog {
-  id          String      @unique @default(cuid())
+  id          String        @unique @default(cuid())
   title       String
-  slug        String      @unique
+  slug        String        @unique
   description String?
   data        Json
   authorId    String
-  author      Profile     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  author      Profile       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
   likedBy     BlogLikes[]
+  categoryId  String?
+  category    Category?      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  keywords    BlogKeyword[]
 }
 
 model BlogLikes {
@@ -52,4 +55,27 @@ model BlogLikes {
   userProfile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@id([blogSlug, profileId])
+}
+
+model Category {
+  id          String @id @default(cuid())
+  name        String
+  description String
+  blogs       Blog[]
+}
+
+model Keyword {
+  id          String        @id @default(cuid())
+  name        String
+  description String?
+  blogs       BlogKeyword[]
+}
+
+model BlogKeyword {
+  blogId    String
+  blog      Blog    @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  keywordId String
+  keyword   Keyword @relation(fields: [keywordId], references: [id], onDelete: Cascade)
+
+  @@id([blogId, keywordId])
 }
