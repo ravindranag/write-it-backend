@@ -67,7 +67,7 @@ export async function authorize() {
 }
 
 // Uncomment to call this function for generating new token
-authorize()
+// authorize()
 
 /**
  * Lists the labels in the user's account.
