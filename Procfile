@@ -1,1 +1,1 @@
-web: yarn get-credentials; yarn get-token; yarn start
+web: yarn start
