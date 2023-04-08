@@ -32,7 +32,7 @@
     "studio": "prisma studio",
     "generate": "prisma generate",
     "format": "prisma format",
-    "get-token": "node src/lib/google/token",
+    "get-token": "node scripts/generate-token-json",
 	"get-credentials": "node scripts/generate-credentials-json"
   },
   "engines": {
