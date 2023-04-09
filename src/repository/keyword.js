@@ -47,7 +47,6 @@ export const addKeyWordsToBlog = async (blogId, keywordList) => {
 			})),
 			skipDuplicates: true
 		})
-		console.log(update)
 		return true
 	} catch(err) {
 		return null

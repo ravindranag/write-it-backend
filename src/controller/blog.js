@@ -1,16 +1,22 @@
-import { createBlog, getBlogBySlug, getLatestBlogs, slugExists, updateBlogById, userLikesBlog } from "../repository/blog.js"
+import { blogLiked, createBlog, dislikeBlog, getBlogBySlug, getLatestBlogs, likeBlog, slugExists, updateBlogById, userLikesBlog } from "../repository/blog.js"
 import { addKeyWordsToBlog, deleteKeywordFromBlog } from "../repository/keyword.js"
 
 export const createBlogController = async (req, res, next) => {
 	try {
 		const data = req.body
 		const { profileId } = req.locals
-		data['authorId'] = profileId
+		const blogData = data, keywords = data.keywords
+		blogData.keywords = undefined
+		blogData['authorId'] = profileId
 		if(await slugExists(data.slug)) {
 			return res.badRequest('Slug already exists')
 		}
-		if(!await createBlog(data)) {
-			return res.sendStatus(400)
+		const blog = await createBlog(blogData)
+		if(!blog) {
+			return res.badRequest()
+		}
+		if(!await addKeyWordsToBlog(blog.id, keywords)) {
+			return res.ok('Could not set keywords')
 		}
 		return res.sendStatus(201)
 	}
@@ -38,7 +44,10 @@ export const userLikesBlogController = async (req, res, next) => {
 		const { profileId } = req.locals
 		const { slug } = req.params
 		if(!await userLikesBlog(profileId, slug)) {
-			return res.sendStatus(409)
+			if(!await likeBlog(slug, profileId)) throw Error('failed')
+		}
+		else if(!await dislikeBlog(slug, profileId)) {
+			throw Error('failed')
 		}
 		return res.sendStatus(200)
 	}
@@ -108,5 +117,18 @@ export const updateBlogController = async (req, res, next) => {
 		return res.ok(updatedBlog)
 	} catch(err) {
 		return res.sendStatus(400)
+	}
+}
+
+export const blogLikedController = async (req, res, next) => {
+	try {
+		const { slug } = req.params
+		const { profileId } = req.locals
+		if(!await blogLiked(slug, profileId)) {
+			return res.sendStatus(400)
+		}
+		return res.sendStatus(200)
+	} catch(err) {
+		return res.sendStatus(500)
 	}
 }

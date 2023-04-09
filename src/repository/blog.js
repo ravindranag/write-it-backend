@@ -16,10 +16,10 @@ export const slugExists = async (slug) => {
 
 export const createBlog = async (data) => {
 	try {
-		await prisma.blog.create({
+		const blog = await prisma.blog.create({
 			data: data
 		})
-		return true
+		return blog
 	}
 	catch(err) {
 		return false
@@ -73,6 +73,11 @@ export const getBlogBySlug = async (slug) => {
 						name: true,
 						id: true
 					}
+				},
+				_count: {
+					select: {
+						likedBy: true
+					}
 				}
 			}
 		})
@@ -86,8 +91,8 @@ export const getBlogBySlug = async (slug) => {
 
 export const userLikesBlog = async (profileId, slug) => {
 	try {
-		await prisma.blogLikes.create({
-			data: {
+		await prisma.blogLikes.findFirstOrThrow({
+			where: {
 				blogSlug: slug,
 				profileId: profileId
 			}
@@ -95,6 +100,36 @@ export const userLikesBlog = async (profileId, slug) => {
 		return true
 	}
 	catch(err) {
+		return false
+	}
+}
+
+export const likeBlog = async (slug, profileId) => {
+	try {
+		await prisma.blogLikes.create({
+			data: {
+				blogSlug: slug,
+				profileId: profileId
+			}
+		})
+		return true
+	} catch(err) {
+		return false
+	}
+}
+
+export const dislikeBlog = async (slug, profileId) => {
+	try {
+		await prisma.blogLikes.delete({
+			where: {
+				blogSlug_profileId: {
+					blogSlug: slug,
+					profileId: profileId
+				}
+			}
+		})
+		return true
+	} catch(err) {
 		return false
 	}
 }
@@ -222,5 +257,19 @@ export const updateCategoryOfBlog = async (blogId, categoryId) => {
 		return updatedBlog
 	} catch(err) {
 		return null
+	}
+}
+
+export const blogLiked = async (slug, profileId) => {
+	try {
+		await prisma.blogLikes.findFirstOrThrow({
+			where: {
+				blogSlug: slug,
+				profileId: profileId
+			}
+		})
+		return true
+	} catch(err) {
+		return false
 	}
 }
