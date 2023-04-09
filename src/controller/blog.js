@@ -1,4 +1,4 @@
-import { createBlog, getBlogBySlug, getLatestBlogs, slugExists, userLikesBlog } from "../repository/blog.js"
+import { createBlog, getBlogBySlug, getLatestBlogs, slugExists, updateBlogById, userLikesBlog } from "../repository/blog.js"
 import { addKeyWordsToBlog, deleteKeywordFromBlog } from "../repository/keyword.js"
 
 export const createBlogController = async (req, res, next) => {
@@ -94,6 +94,18 @@ export const deleteKeywordController = async (req, res, next) => {
 			return res.sendStatus(400)
 		}
 		return res.ok('Deleted')
+	} catch(err) {
+		return res.sendStatus(400)
+	}
+}
+
+export const updateBlogController = async (req, res, next) => {
+	try {
+		const { blogId } = req.locals
+		const data = req.body
+		const updatedBlog = await updateBlogById(blogId, data)
+		if(!updatedBlog) throw Error('Bad request')
+		return res.ok(updatedBlog)
 	} catch(err) {
 		return res.sendStatus(400)
 	}

@@ -62,14 +62,16 @@ export const getBlogBySlug = async (slug) => {
 					select: {
 						keyword: {
 							select: {
-								name: true
+								name: true,
+								id: true
 							}
 						}
 					}
 				},
 				category: {
 					select: {
-						name: true
+						name: true,
+						id: true
 					}
 				}
 			}
@@ -145,6 +147,79 @@ export const getFullBlogBySlug = async (slug) => {
 			}
 		})
 		return blog
+	} catch(err) {
+		return null
+	}
+}
+
+export const updateBlogById = async (blogId, data) => {
+	try {
+		const updatedBlog = await prisma.blog.update({
+			data: data,
+			where: {
+				id: blogId
+			},
+			select: {
+				title: true,
+				slug: true,
+				description: true,
+				data: true,
+				createdAt: true,
+				updatedAt: true,
+				author: {
+					select: {
+						name: true,
+						username: true,
+						avatar: true,
+						bio: true,
+						twitter_username: true
+					}
+				},
+				likedBy: {
+					select: {
+						userProfile: {
+							select: {
+								username: true,
+								avatar: true,
+							}
+						},
+					}
+				},
+				keywords: {
+					select: {
+						keyword: {
+							select: {
+								name: true,
+								id: true
+							}
+						}
+					}
+				},
+				category: {
+					select: {
+						name: true,
+						id: true
+					}
+				}
+			}
+		})
+		return updatedBlog
+	} catch(err) {
+		return null
+	}
+}
+
+export const updateCategoryOfBlog = async (blogId, categoryId) => {
+	try {
+		const updatedBlog = await prisma.blog.update({
+			data: {
+				categoryId: categoryId
+			},
+			where: {
+				id: blogId
+			}
+		})
+		return updatedBlog
 	} catch(err) {
 		return null
 	}

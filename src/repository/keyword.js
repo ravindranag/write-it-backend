@@ -50,7 +50,6 @@ export const addKeyWordsToBlog = async (blogId, keywordList) => {
 		console.log(update)
 		return true
 	} catch(err) {
-		console.log(err)
 		return null
 	}
 }
@@ -67,7 +66,6 @@ export const deleteKeywordFromBlog = async (blogId, keywordId) => {
 		})
 		return true
 	} catch(err) {
-		console.log(err)
 		return false
 	}
 }
