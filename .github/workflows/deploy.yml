@@ -16,6 +16,12 @@ jobs:
       - name: Clone project
         uses: actions/checkout@v2
 
+      - name: Install dependencies
+        run: yarn
+
+      - name: Migrate DB
+        run: yarn migrate:deploy
+
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
