@@ -1,5 +1,5 @@
 import { createBlog, getBlogBySlug, getLatestBlogs, slugExists, userLikesBlog } from "../repository/blog.js"
-import { addKeyWordsToBlog } from "../repository/keyword.js"
+import { addKeyWordsToBlog, deleteKeywordFromBlog } from "../repository/keyword.js"
 
 export const createBlogController = async (req, res, next) => {
 	try {
@@ -79,9 +79,22 @@ export const updateKeywordController = async (req, res, next) => {
 		const { keywords } = req.body
 		const { blogId } = req.locals
 		const update = await addKeyWordsToBlog(blogId, keywords)
-		return res.ok(update)
+		return res.sendStatus(200)
 
 	} catch(err) {
+		return res.sendStatus(400)
+	}
+}
 
+export const deleteKeywordController = async (req, res, next) => {
+	try {
+		const { keywordId } = req.params
+		const { blogId } = req.locals
+		if(!await deleteKeywordFromBlog(blogId, keywordId)) {
+			return res.sendStatus(400)
+		}
+		return res.ok('Deleted')
+	} catch(err) {
+		return res.sendStatus(400)
 	}
 }

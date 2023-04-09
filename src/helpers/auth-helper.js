@@ -58,7 +58,6 @@ export const authorizeAndGetProfile = async (req, res, next) => {
 export const authorizeAuthor = async (req, res, next) => {
 	try {
 		let token = req.headers.authorization
-		console.log(token)
 		let payload = await verifyJWT(token)
 
 		const { slug } = req.params

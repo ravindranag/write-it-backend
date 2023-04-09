@@ -54,3 +54,20 @@ export const addKeyWordsToBlog = async (blogId, keywordList) => {
 		return null
 	}
 }
+
+export const deleteKeywordFromBlog = async (blogId, keywordId) => {
+	try {
+		await prisma.blogKeyword.delete({
+			where: {
+				blogId_keywordId: {
+					blogId: blogId,
+					keywordId: keywordId
+				}
+			}
+		})
+		return true
+	} catch(err) {
+		console.log(err)
+		return false
+	}
+}
