@@ -1,4 +1,5 @@
 import { verifyJWT } from "../lib/jose/jwt.js"
+import { getFullBlogBySlug } from "../repository/blog.js"
 import { getProfileById } from "../repository/user.js"
 
 export const authorizeUser = async (req, res, next) => {
@@ -51,5 +52,27 @@ export const authorizeAndGetProfile = async (req, res, next) => {
 	catch(err) {
 		// console.log(err)
 		return res.sendStatusResponse(403, err.message)
+	}
+}
+
+export const authorizeAuthor = async (req, res, next) => {
+	try {
+		let token = req.headers.authorization
+		console.log(token)
+		let payload = await verifyJWT(token)
+
+		const { slug } = req.params
+		const blog = await getFullBlogBySlug(slug)
+		if(!blog || blog.authorId !== payload.profileId) {
+			throw Error('Forbidden')
+		}
+		req.locals = {
+			userId: payload.userId,
+			profileId: payload.profileId,
+			blogId: blog.id
+		}
+		next()
+	} catch(err) {
+		return res.sendStatus(403)
 	}
 }

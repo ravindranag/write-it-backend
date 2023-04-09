@@ -26,6 +26,9 @@ jobs:
 
       - name: Migrate DB
         run: yarn migrate:deploy
+      
+      - name: Generate Prisma Client
+        run: yarn generate
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1

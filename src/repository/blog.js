@@ -56,7 +56,21 @@ export const getBlogBySlug = async (slug) => {
 								avatar: true,
 							}
 						},
-					},
+					}
+				},
+				keywords: {
+					select: {
+						keyword: {
+							select: {
+								name: true
+							}
+						}
+					}
+				},
+				category: {
+					select: {
+						name: true
+					}
 				}
 			}
 		})
@@ -116,6 +130,22 @@ export const getLatestBlogs = async () => {
 		return latestBlogs
 	}
 	catch(err) {
+		return null
+	}
+}
+
+export const getFullBlogBySlug = async (slug) => {
+	try {
+		const blog = await prisma.blog.findFirstOrThrow({
+			where: {
+				slug: slug
+			},
+			include: {
+				author: true,
+			}
+		})
+		return blog
+	} catch(err) {
 		return null
 	}
 }

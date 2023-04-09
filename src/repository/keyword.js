@@ -30,3 +30,27 @@ export const getAllKeywords = async () => {
 		return null
 	}
 }
+
+
+/**
+ * 
+ * @param {string} blogId 
+ * @param {string[]} keywordList 
+ * @returns 
+ */
+export const addKeyWordsToBlog = async (blogId, keywordList) => {
+	try {
+		const update = await prisma.blogKeyword.createMany({
+			data: keywordList.map(keyword => ({
+				blogId: blogId,
+				keywordId: keyword.id
+			})),
+			skipDuplicates: true
+		})
+		console.log(update)
+		return true
+	} catch(err) {
+		console.log(err)
+		return null
+	}
+}

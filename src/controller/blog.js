@@ -1,4 +1,5 @@
 import { createBlog, getBlogBySlug, getLatestBlogs, slugExists, userLikesBlog } from "../repository/blog.js"
+import { addKeyWordsToBlog } from "../repository/keyword.js"
 
 export const createBlogController = async (req, res, next) => {
 	try {
@@ -69,5 +70,18 @@ export const slugAvailabilityController = async (req, res, next) => {
 	}
 	catch(err) {
 		next(err)
+	}
+}
+
+export const updateKeywordController = async (req, res, next) => {
+	try {
+		const { slug } = req.params
+		const { keywords } = req.body
+		const { blogId } = req.locals
+		const update = await addKeyWordsToBlog(blogId, keywords)
+		return res.ok(update)
+
+	} catch(err) {
+
 	}
 }
