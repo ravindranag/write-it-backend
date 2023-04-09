@@ -17,14 +17,7 @@ const app = express()
 
 app.use(morgan('dev'))
 app.use(cors({
-	origin: function(origin, callback) {
-		// console.log('origin', origin)
-		if (whitelist.indexOf(origin) !== -1 || origin === undefined) {
-			callback(null, true)
-		} else {
-			callback(new Error('Not allowed by CORS'))
-		}
-	}
+	origin: ['http://localhost:3000', 'https://writeit.ravindranag.in']
 }))
 app.use(json())
 app.use(urlencoded({
