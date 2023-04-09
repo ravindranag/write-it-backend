@@ -16,6 +16,11 @@ jobs:
       - name: Clone project
         uses: actions/checkout@v2
 
+      - name: Load Environment Variables
+        run: |
+          touch .env
+          echo VITE_BASE_API_URL=${{ secrets.DATABASE_URL }} >> .env
+
       - name: Install dependencies
         run: yarn
 

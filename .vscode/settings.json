@@ -1,3 +1,6 @@
 {
-	"javascript.preferences.importModuleSpecifierEnding": "js"
+	"javascript.preferences.importModuleSpecifierEnding": "js",
+	"yaml.schemas": {
+		"https://json.schemastore.org/github-action.json": "file:///a%3A/Projects/write-it-b/.github/workflows/deploy.yml"
+	}
 }
