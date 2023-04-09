@@ -1,1 +1,0 @@
-web: yarn migrate:deploy; yarn generate; yarn start
