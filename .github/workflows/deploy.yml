@@ -1,0 +1,23 @@
+
+name: Deploy
+'on':
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: 'Deploy'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Clone project
+        uses: actions/checkout@v2
+
+      - name: Upload to Deno Deploy
+        uses: denoland/deployctl@v1
+        with:
+          project: "write-it-backend"
+          entrypoint: "./src/app.js"
