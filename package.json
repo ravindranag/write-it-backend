@@ -36,6 +36,7 @@
 	"get-credentials": "node scripts/generate-credentials-json"
   },
   "engines": {
-	"node": "18.15.0"
+	"node": "18.15.0",
+	"yarn": "1.22.19"
   }
 }
