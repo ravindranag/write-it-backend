@@ -1,7 +1,6 @@
 import { comparePasswords, hashPassword } from "../lib/bcrypt/password.js"
 import { uploadProfilePic } from "../lib/firebase/utils.js"
 import { generateJWT } from "../lib/jose/jwt.js"
-import { generateOTP, verifyOTP } from "../lib/otplib/otp.js"
 import { createUser, getListOfMembers, getMemberProfileByUsername, getUserByEmail, getUserById, updateProfileById, userExists, userExistsByUsername } from "../repository/user.js"
 import { readFileSync, unlink } from 'fs'
 
@@ -17,7 +16,7 @@ export const createUserController = async (req, res, next) => {
 		let hashedPassword = await hashPassword(data.password) 
 		data.password = hashedPassword
 		if(!await createUser(data)) {
-			return res.sendStatus(500)
+			return res.sendStatus(400)
 		}
 		return res.sendStatus(201)
 	}
@@ -126,26 +125,5 @@ export const uploadProfilePicController = async (req, res, next) => {
 	catch(err) {
 		console.log(err)
 		return res.sendStatusResponse(500, err.message)
-	}
-}
-export const generateOTPController = async (req, res, next) => {
-	const { email } = req.body;
-	try {
-		const otp = generateOTP(email);
-	
-		return res.ok(`OTP sent to ${email}`)
-	} catch(err) {
-		next(Error('Server error'))
-	}
-}
-
-export const verifyOTPController = async (req, res, next) => {
-	const { otp, email } = req.body
-
-	const verified = verifyOTP(otp, email)
-	if(verified) {
-		return res.ok('Email verified')
-	} else {
-		return res.badRequest('Invalid OTP')
 	}
 }
